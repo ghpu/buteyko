@@ -113,10 +113,13 @@ view model =
                 , Html.li [ Html.Attributes.class third ] [ Html.text "Take 30s-1m to recover by breathing slowly and lightly through your nose." ]
                 ]
             , Html.text "Repeat the exercise 6 times."
-            , progress model
+            , Html.br [] []
             , Html.button
                 [ Pointer.onDown (\event -> Press), Pointer.onUp (\event -> Release) ]
                 [ Html.text "Press and hold" ]
+            , Html.br [] []
+            , progress model
+            , Html.br [] []
             , Html.text ("Number of repetitions done : " ++ (String.fromInt model.round) ++ "/6")
             ]
 
@@ -133,17 +136,25 @@ progress model =
 
                 _ ->
                     0
+
+        color =
+            if duration > 30 * width // 60 then
+                "green"
+            else
+                "red"
     in
         Svg.svg
-            [ Html.Attributes.style "position" "absolute"
-            , Html.Attributes.style "left" "0"
-            , Html.Attributes.style "top" "400"
-            , Svg.Attributes.width "400"
+            [ Svg.Attributes.width "400"
             , Svg.Attributes.height "32"
-            , Svg.Attributes.viewBox "0 0 400 32"
+            , Svg.Attributes.viewBox "0 0 600 32"
             ]
-            [ Svg.rect [ Svg.Attributes.x "0", Svg.Attributes.y "0", Svg.Attributes.width (String.fromInt width), Svg.Attributes.height "32", Svg.Attributes.rx "16", Svg.Attributes.ry "16", Svg.Attributes.fill "red", Svg.Attributes.fillOpacity "20%" ] []
-            , Svg.rect [ Svg.Attributes.x "0", Svg.Attributes.y "0", Svg.Attributes.width (String.fromInt duration), Svg.Attributes.height "32", Svg.Attributes.rx "16", Svg.Attributes.ry "16", Svg.Attributes.fill "red", Svg.Attributes.fillOpacity "50%" ] []
+            [ Svg.rect [ Svg.Attributes.x "0", Svg.Attributes.y "0", Svg.Attributes.width (String.fromInt (width // 2 + 16)), Svg.Attributes.height "32", Svg.Attributes.rx "16", Svg.Attributes.ry "16", Svg.Attributes.fill "red", Svg.Attributes.fillOpacity "20%" ]
+                []
+            , Svg.rect
+                [ Svg.Attributes.x (String.fromInt (width // 2)), Svg.Attributes.y "0", Svg.Attributes.width (String.fromInt (width // 2 - 16)), Svg.Attributes.height "32", Svg.Attributes.rx "16", Svg.Attributes.ry "16", Svg.Attributes.fill "green", Svg.Attributes.fillOpacity "20%" ]
+                []
+            , Svg.text_ [ Svg.Attributes.textAnchor "middle", Svg.Attributes.x "50%", Svg.Attributes.y "65%" ] [ Svg.text "Recovering time" ]
+            , Svg.rect [ Svg.Attributes.x "0", Svg.Attributes.y "0", Svg.Attributes.width (String.fromInt duration), Svg.Attributes.height "32", Svg.Attributes.rx "16", Svg.Attributes.ry "16", Svg.Attributes.fill color, Svg.Attributes.fillOpacity "50%" ] []
             ]
 
 

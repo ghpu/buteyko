@@ -5855,6 +5855,7 @@ var $author$project$Main$update = F2(
 	});
 var $author$project$Main$Press = {$: 3};
 var $author$project$Main$Release = {$: 4};
+var $elm$html$Html$br = _VirtualDom_node('br');
 var $elm$html$Html$button = _VirtualDom_node('button');
 var $elm$json$Json$Encode$string = _Json_wrap;
 var $elm$html$Html$Attributes$stringProperty = F2(
@@ -6022,9 +6023,11 @@ var $elm$svg$Svg$trustedNode = _VirtualDom_nodeNS('http://www.w3.org/2000/svg');
 var $elm$svg$Svg$rect = $elm$svg$Svg$trustedNode('rect');
 var $elm$svg$Svg$Attributes$rx = _VirtualDom_attribute('rx');
 var $elm$svg$Svg$Attributes$ry = _VirtualDom_attribute('ry');
-var $elm$virtual_dom$VirtualDom$style = _VirtualDom_style;
-var $elm$html$Html$Attributes$style = $elm$virtual_dom$VirtualDom$style;
 var $elm$svg$Svg$svg = $elm$svg$Svg$trustedNode('svg');
+var $elm$virtual_dom$VirtualDom$text = _VirtualDom_text;
+var $elm$svg$Svg$text = $elm$virtual_dom$VirtualDom$text;
+var $elm$svg$Svg$Attributes$textAnchor = _VirtualDom_attribute('text-anchor');
+var $elm$svg$Svg$text_ = $elm$svg$Svg$trustedNode('text');
 var $elm$svg$Svg$Attributes$viewBox = _VirtualDom_attribute('viewBox');
 var $elm$svg$Svg$Attributes$width = _VirtualDom_attribute('width');
 var $elm$svg$Svg$Attributes$x = _VirtualDom_attribute('x');
@@ -6044,16 +6047,14 @@ var $author$project$Main$progress = function (model) {
 			return 0;
 		}
 	}();
+	var color = (_Utils_cmp(duration, ((30 * width) / 60) | 0) > 0) ? 'green' : 'red';
 	return A2(
 		$elm$svg$Svg$svg,
 		_List_fromArray(
 			[
-				A2($elm$html$Html$Attributes$style, 'position', 'absolute'),
-				A2($elm$html$Html$Attributes$style, 'left', '0'),
-				A2($elm$html$Html$Attributes$style, 'top', '400'),
 				$elm$svg$Svg$Attributes$width('400'),
 				$elm$svg$Svg$Attributes$height('32'),
-				$elm$svg$Svg$Attributes$viewBox('0 0 400 32')
+				$elm$svg$Svg$Attributes$viewBox('0 0 600 32')
 			]),
 		_List_fromArray(
 			[
@@ -6064,7 +6065,7 @@ var $author$project$Main$progress = function (model) {
 						$elm$svg$Svg$Attributes$x('0'),
 						$elm$svg$Svg$Attributes$y('0'),
 						$elm$svg$Svg$Attributes$width(
-						$elm$core$String$fromInt(width)),
+						$elm$core$String$fromInt(((width / 2) | 0) + 16)),
 						$elm$svg$Svg$Attributes$height('32'),
 						$elm$svg$Svg$Attributes$rx('16'),
 						$elm$svg$Svg$Attributes$ry('16'),
@@ -6076,6 +6077,34 @@ var $author$project$Main$progress = function (model) {
 				$elm$svg$Svg$rect,
 				_List_fromArray(
 					[
+						$elm$svg$Svg$Attributes$x(
+						$elm$core$String$fromInt((width / 2) | 0)),
+						$elm$svg$Svg$Attributes$y('0'),
+						$elm$svg$Svg$Attributes$width(
+						$elm$core$String$fromInt(((width / 2) | 0) - 16)),
+						$elm$svg$Svg$Attributes$height('32'),
+						$elm$svg$Svg$Attributes$rx('16'),
+						$elm$svg$Svg$Attributes$ry('16'),
+						$elm$svg$Svg$Attributes$fill('green'),
+						$elm$svg$Svg$Attributes$fillOpacity('20%')
+					]),
+				_List_Nil),
+				A2(
+				$elm$svg$Svg$text_,
+				_List_fromArray(
+					[
+						$elm$svg$Svg$Attributes$textAnchor('middle'),
+						$elm$svg$Svg$Attributes$x('50%'),
+						$elm$svg$Svg$Attributes$y('65%')
+					]),
+				_List_fromArray(
+					[
+						$elm$svg$Svg$text('Recovering time')
+					])),
+				A2(
+				$elm$svg$Svg$rect,
+				_List_fromArray(
+					[
 						$elm$svg$Svg$Attributes$x('0'),
 						$elm$svg$Svg$Attributes$y('0'),
 						$elm$svg$Svg$Attributes$width(
@@ -6083,13 +6112,12 @@ var $author$project$Main$progress = function (model) {
 						$elm$svg$Svg$Attributes$height('32'),
 						$elm$svg$Svg$Attributes$rx('16'),
 						$elm$svg$Svg$Attributes$ry('16'),
-						$elm$svg$Svg$Attributes$fill('red'),
+						$elm$svg$Svg$Attributes$fill(color),
 						$elm$svg$Svg$Attributes$fillOpacity('50%')
 					]),
 				_List_Nil)
 			]));
 };
-var $elm$virtual_dom$VirtualDom$text = _VirtualDom_text;
 var $elm$html$Html$text = $elm$virtual_dom$VirtualDom$text;
 var $author$project$Main$view = function (model) {
 	var _v0 = function () {
@@ -6186,7 +6214,7 @@ var $author$project$Main$view = function (model) {
 							]))
 					])),
 				$elm$html$Html$text('Repeat the exercise 6 times.'),
-				$author$project$Main$progress(model),
+				A2($elm$html$Html$br, _List_Nil, _List_Nil),
 				A2(
 				$elm$html$Html$button,
 				_List_fromArray(
@@ -6204,6 +6232,9 @@ var $author$project$Main$view = function (model) {
 					[
 						$elm$html$Html$text('Press and hold')
 					])),
+				A2($elm$html$Html$br, _List_Nil, _List_Nil),
+				$author$project$Main$progress(model),
+				A2($elm$html$Html$br, _List_Nil, _List_Nil),
 				$elm$html$Html$text(
 				'Number of repetitions done : ' + ($elm$core$String$fromInt(model.an) + '/6'))
 			]));
