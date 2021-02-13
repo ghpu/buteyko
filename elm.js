@@ -1857,9 +1857,9 @@ var _Platform_worker = F4(function(impl, flagDecoder, debugMetadata, args)
 	return _Platform_initialize(
 		flagDecoder,
 		args,
-		impl.br,
-		impl.bM,
-		impl.bH,
+		impl.bs,
+		impl.bN,
+		impl.bI,
 		function() { return function() {} }
 	);
 });
@@ -3928,11 +3928,11 @@ var _Browser_element = _Debugger_element || F4(function(impl, flagDecoder, debug
 	return _Platform_initialize(
 		flagDecoder,
 		args,
-		impl.br,
-		impl.bM,
-		impl.bH,
+		impl.bs,
+		impl.bN,
+		impl.bI,
 		function(sendToApp, initialModel) {
-			var view = impl.bN;
+			var view = impl.bO;
 			/**/
 			var domNode = args['node'];
 			//*/
@@ -3964,12 +3964,12 @@ var _Browser_document = _Debugger_document || F4(function(impl, flagDecoder, deb
 	return _Platform_initialize(
 		flagDecoder,
 		args,
-		impl.br,
-		impl.bM,
-		impl.bH,
+		impl.bs,
+		impl.bN,
+		impl.bI,
 		function(sendToApp, initialModel) {
 			var divertHrefToApp = impl.as && impl.as(sendToApp)
-			var view = impl.bN;
+			var view = impl.bO;
 			var title = _VirtualDom_doc.title;
 			var bodyNode = _VirtualDom_doc.body;
 			var currNode = _VirtualDom_virtualize(bodyNode);
@@ -4038,8 +4038,8 @@ function _Browser_makeAnimator(model, draw)
 
 function _Browser_application(impl)
 {
-	var onUrlChange = impl.ak;
-	var onUrlRequest = impl.al;
+	var onUrlChange = impl.al;
+	var onUrlRequest = impl.am;
 	var key = function() { key.a(onUrlChange(_Browser_getUrl())); };
 
 	return _Browser_document({
@@ -4059,9 +4059,9 @@ function _Browser_application(impl)
 					var next = $elm$url$Url$fromString(href).a;
 					sendToApp(onUrlRequest(
 						(next
-							&& curr.aU === next.aU
+							&& curr.aV === next.aV
 							&& curr.aE === next.aE
-							&& curr.aR.a === next.aR.a
+							&& curr.aS.a === next.aS.a
 						)
 							? $elm$browser$Browser$Internal(next)
 							: $elm$browser$Browser$External(href)
@@ -4069,13 +4069,13 @@ function _Browser_application(impl)
 				}
 			});
 		},
-		br: function(flags)
+		bs: function(flags)
 		{
-			return A3(impl.br, flags, _Browser_getUrl(), key);
+			return A3(impl.bs, flags, _Browser_getUrl(), key);
 		},
+		bO: impl.bO,
 		bN: impl.bN,
-		bM: impl.bM,
-		bH: impl.bH
+		bI: impl.bI
 	});
 }
 
@@ -4141,17 +4141,17 @@ var _Browser_decodeEvent = F2(function(decoder, event)
 function _Browser_visibilityInfo()
 {
 	return (typeof _VirtualDom_doc.hidden !== 'undefined')
-		? { bo: 'hidden', bb: 'visibilitychange' }
+		? { bp: 'hidden', bc: 'visibilitychange' }
 		:
 	(typeof _VirtualDom_doc.mozHidden !== 'undefined')
-		? { bo: 'mozHidden', bb: 'mozvisibilitychange' }
+		? { bp: 'mozHidden', bc: 'mozvisibilitychange' }
 		:
 	(typeof _VirtualDom_doc.msHidden !== 'undefined')
-		? { bo: 'msHidden', bb: 'msvisibilitychange' }
+		? { bp: 'msHidden', bc: 'msvisibilitychange' }
 		:
 	(typeof _VirtualDom_doc.webkitHidden !== 'undefined')
-		? { bo: 'webkitHidden', bb: 'webkitvisibilitychange' }
-		: { bo: 'hidden', bb: 'visibilitychange' };
+		? { bp: 'webkitHidden', bc: 'webkitvisibilitychange' }
+		: { bp: 'hidden', bc: 'visibilitychange' };
 }
 
 
@@ -4232,12 +4232,12 @@ var _Browser_call = F2(function(functionName, id)
 function _Browser_getViewport()
 {
 	return {
-		Y: _Browser_getScene(),
-		a3: {
-			a5: _Browser_window.pageXOffset,
-			a6: _Browser_window.pageYOffset,
-			bO: _Browser_doc.documentElement.clientWidth,
-			bn: _Browser_doc.documentElement.clientHeight
+		Z: _Browser_getScene(),
+		a4: {
+			a6: _Browser_window.pageXOffset,
+			a7: _Browser_window.pageYOffset,
+			bP: _Browser_doc.documentElement.clientWidth,
+			bo: _Browser_doc.documentElement.clientHeight
 		}
 	};
 }
@@ -4247,8 +4247,8 @@ function _Browser_getScene()
 	var body = _Browser_doc.body;
 	var elem = _Browser_doc.documentElement;
 	return {
-		bO: Math.max(body.scrollWidth, body.offsetWidth, elem.scrollWidth, elem.offsetWidth, elem.clientWidth),
-		bn: Math.max(body.scrollHeight, body.offsetHeight, elem.scrollHeight, elem.offsetHeight, elem.clientHeight)
+		bP: Math.max(body.scrollWidth, body.offsetWidth, elem.scrollWidth, elem.offsetWidth, elem.clientWidth),
+		bo: Math.max(body.scrollHeight, body.offsetHeight, elem.scrollHeight, elem.offsetHeight, elem.clientHeight)
 	};
 }
 
@@ -4271,15 +4271,15 @@ function _Browser_getViewportOf(id)
 	return _Browser_withNode(id, function(node)
 	{
 		return {
-			Y: {
-				bO: node.scrollWidth,
-				bn: node.scrollHeight
+			Z: {
+				bP: node.scrollWidth,
+				bo: node.scrollHeight
 			},
-			a3: {
-				a5: node.scrollLeft,
-				a6: node.scrollTop,
-				bO: node.clientWidth,
-				bn: node.clientHeight
+			a4: {
+				a6: node.scrollLeft,
+				a7: node.scrollTop,
+				bP: node.clientWidth,
+				bo: node.clientHeight
 			}
 		};
 	});
@@ -4309,18 +4309,18 @@ function _Browser_getElement(id)
 		var x = _Browser_window.pageXOffset;
 		var y = _Browser_window.pageYOffset;
 		return {
-			Y: _Browser_getScene(),
-			a3: {
-				a5: x,
-				a6: y,
-				bO: _Browser_doc.documentElement.clientWidth,
-				bn: _Browser_doc.documentElement.clientHeight
+			Z: _Browser_getScene(),
+			a4: {
+				a6: x,
+				a7: y,
+				bP: _Browser_doc.documentElement.clientWidth,
+				bo: _Browser_doc.documentElement.clientHeight
 			},
-			bk: {
-				a5: x + rect.left,
-				a6: y + rect.top,
-				bO: rect.width,
-				bn: rect.height
+			bl: {
+				a6: x + rect.left,
+				a7: y + rect.top,
+				bP: rect.width,
+				bo: rect.height
 			}
 		};
 	});
@@ -4859,7 +4859,7 @@ var $elm$url$Url$Http = 0;
 var $elm$url$Url$Https = 1;
 var $elm$url$Url$Url = F6(
 	function (protocol, host, port_, path, query, fragment) {
-		return {aC: fragment, aE: host, aP: path, aR: port_, aU: protocol, aV: query};
+		return {aC: fragment, aE: host, aQ: path, aS: port_, aV: protocol, aW: query};
 	});
 var $elm$core$String$contains = _String_contains;
 var $elm$core$String$length = _String_length;
@@ -5138,22 +5138,24 @@ var $elm$core$Task$perform = F2(
 			A2($elm$core$Task$map, toMessage, task));
 	});
 var $elm$browser$Browser$element = _Browser_element;
-var $author$project$Main$Model = F3(
-	function (round, scene, exercise) {
-		return {t: exercise, an: round, Y: scene};
+var $author$project$Main$Model = F4(
+	function (round, scene, exercise, lang) {
+		return {q: exercise, aG: lang, Y: round, Z: scene};
 	});
 var $author$project$Main$Preparation = {$: 0};
 var $elm$core$Platform$Cmd$batch = _Platform_batch;
 var $elm$core$Platform$Cmd$none = $elm$core$Platform$Cmd$batch(_List_Nil);
-var $author$project$Main$init = function (_v0) {
+var $author$project$Main$init = function (lang) {
 	return _Utils_Tuple2(
-		A3(
+		A4(
 			$author$project$Main$Model,
 			0,
 			_Utils_Tuple2(320, 240),
-			$author$project$Main$Preparation),
+			$author$project$Main$Preparation,
+			lang),
 		$elm$core$Platform$Cmd$none);
 };
+var $elm$json$Json$Decode$string = _Json_decodeString;
 var $author$project$Main$Frame = function (a) {
 	return {$: 0, a: a};
 };
@@ -5167,7 +5169,7 @@ var $elm$browser$Browser$AnimationManager$Time = function (a) {
 };
 var $elm$browser$Browser$AnimationManager$State = F3(
 	function (subs, request, oldTime) {
-		return {aq: oldTime, aX: request, a0: subs};
+		return {aq: oldTime, aY: request, a1: subs};
 	});
 var $elm$browser$Browser$AnimationManager$init = $elm$core$Task$succeed(
 	A3($elm$browser$Browser$AnimationManager$State, _List_Nil, $elm$core$Maybe$Nothing, 0));
@@ -5178,7 +5180,7 @@ var $elm$core$Platform$sendToSelf = _Platform_sendToSelf;
 var $elm$core$Process$spawn = _Scheduler_spawn;
 var $elm$browser$Browser$AnimationManager$onEffects = F3(
 	function (router, subs, _v0) {
-		var request = _v0.aX;
+		var request = _v0.aY;
 		var oldTime = _v0.aq;
 		var _v1 = _Utils_Tuple2(request, subs);
 		if (_v1.a.$ === 1) {
@@ -5227,7 +5229,7 @@ var $elm$time$Time$Posix = $elm$core$Basics$identity;
 var $elm$time$Time$millisToPosix = $elm$core$Basics$identity;
 var $elm$browser$Browser$AnimationManager$onSelfMsg = F3(
 	function (router, newTime, _v0) {
-		var subs = _v0.a0;
+		var subs = _v0.a1;
 		var oldTime = _v0.aq;
 		var send = function (sub) {
 			if (!sub.$) {
@@ -5303,7 +5305,7 @@ var $elm$browser$Browser$Events$MySub = F3(
 	});
 var $elm$browser$Browser$Events$State = F2(
 	function (subs, pids) {
-		return {aQ: pids, a0: subs};
+		return {aR: pids, a1: subs};
 	});
 var $elm$core$Dict$RBEmpty_elm_builtin = {$: -2};
 var $elm$core$Dict$empty = $elm$core$Dict$RBEmpty_elm_builtin;
@@ -5608,7 +5610,7 @@ var $elm$browser$Browser$Events$onEffects = F3(
 			stepLeft,
 			stepBoth,
 			stepRight,
-			state.aQ,
+			state.aR,
 			$elm$core$Dict$fromList(newSubs),
 			_Utils_Tuple3(_List_Nil, $elm$core$Dict$empty, _List_Nil));
 		var deadPids = _v0.a;
@@ -5664,7 +5666,7 @@ var $elm$browser$Browser$Events$onSelfMsg = F3(
 			var decoder = _v3.c;
 			return _Utils_eq(subKey, key) ? A2(_Browser_decodeEvent, decoder, event) : $elm$core$Maybe$Nothing;
 		};
-		var messages = A2($elm$core$List$filterMap, toMessage, state.a0);
+		var messages = A2($elm$core$List$filterMap, toMessage, state.a1);
 		return A2(
 			$elm$core$Task$andThen,
 			function (_v1) {
@@ -5746,7 +5748,7 @@ var $ianmackenzie$elm_units$Duration$inMilliseconds = function (duration) {
 var $elm$core$Basics$round = _Basics_round;
 var $author$project$Main$update = F2(
 	function (msg, model) {
-		var _v0 = _Utils_Tuple2(msg, model.t);
+		var _v0 = _Utils_Tuple2(msg, model.q);
 		_v0$5:
 		while (true) {
 			switch (_v0.a.$) {
@@ -5756,9 +5758,9 @@ var $author$project$Main$update = F2(
 						_Utils_update(
 							model,
 							{
-								Y: _Utils_Tuple2(
-									$elm$core$Basics$round(vp.Y.bO),
-									$elm$core$Basics$round(vp.Y.bn))
+								Z: _Utils_Tuple2(
+									$elm$core$Basics$round(vp.Z.bP),
+									$elm$core$Basics$round(vp.Z.bo))
 							}),
 						$elm$core$Platform$Cmd$none);
 				case 2:
@@ -5769,7 +5771,7 @@ var $author$project$Main$update = F2(
 						_Utils_update(
 							model,
 							{
-								Y: _Utils_Tuple2(width, height)
+								Z: _Utils_Tuple2(width, height)
 							}),
 						$elm$core$Platform$Cmd$none);
 				case 0:
@@ -5810,12 +5812,12 @@ var $author$project$Main$update = F2(
 						return (duration > 30000) ? _Utils_Tuple2(
 							_Utils_update(
 								model,
-								{t: $author$project$Main$Preparation, an: model.an + 1}),
+								{q: $author$project$Main$Preparation, Y: model.Y + 1}),
 							$elm$core$Platform$Cmd$none) : _Utils_Tuple2(
 							_Utils_update(
 								model,
 								{
-									t: $author$project$Main$Recovery(
+									q: $author$project$Main$Recovery(
 										_Utils_Tuple2(s, t))
 								}),
 							$elm$core$Platform$Cmd$none);
@@ -5829,7 +5831,7 @@ var $author$project$Main$update = F2(
 						return _Utils_Tuple2(
 							_Utils_update(
 								model,
-								{t: $author$project$Main$BreathHolding}),
+								{q: $author$project$Main$BreathHolding}),
 							$elm$core$Platform$Cmd$none);
 					} else {
 						break _v0$5;
@@ -5842,7 +5844,7 @@ var $author$project$Main$update = F2(
 							_Utils_update(
 								model,
 								{
-									t: $author$project$Main$Recovery(
+									q: $author$project$Main$Recovery(
 										_Utils_Tuple2($elm$core$Maybe$Nothing, $elm$core$Maybe$Nothing))
 								}),
 							$elm$core$Platform$Cmd$none);
@@ -5883,12 +5885,12 @@ var $elm$html$Html$Events$custom = F2(
 	});
 var $mpizenberg$elm_pointer_events$Html$Events$Extra$Pointer$Event = F5(
 	function (pointerType, pointer, pointerId, isPrimary, contactDetails) {
-		return {be: contactDetails, bs: isPrimary, bz: pointer, bA: pointerId, bB: pointerType};
+		return {bf: contactDetails, bt: isPrimary, bA: pointer, bB: pointerId, bC: pointerType};
 	});
 var $elm$json$Json$Decode$bool = _Json_decodeBool;
 var $mpizenberg$elm_pointer_events$Html$Events$Extra$Pointer$ContactDetails = F5(
 	function (width, height, pressure, tiltX, tiltY) {
-		return {bn: height, bC: pressure, bJ: tiltX, bK: tiltY, bO: width};
+		return {bo: height, bD: pressure, bK: tiltX, bL: tiltY, bP: width};
 	});
 var $elm$json$Json$Decode$float = _Json_decodeFloat;
 var $elm$json$Json$Decode$map5 = _Json_map5;
@@ -5902,7 +5904,7 @@ var $mpizenberg$elm_pointer_events$Html$Events$Extra$Pointer$contactDetailsDecod
 	A2($elm$json$Json$Decode$field, 'tiltY', $elm$json$Json$Decode$float));
 var $mpizenberg$elm_pointer_events$Html$Events$Extra$Mouse$Event = F6(
 	function (keys, button, clientPos, offsetPos, pagePos, screenPos) {
-		return {ba: button, bd: clientPos, bt: keys, bw: offsetPos, by: pagePos, bE: screenPos};
+		return {bb: button, be: clientPos, bu: keys, bx: offsetPos, bz: pagePos, bF: screenPos};
 	});
 var $mpizenberg$elm_pointer_events$Html$Events$Extra$Mouse$BackButton = 4;
 var $mpizenberg$elm_pointer_events$Html$Events$Extra$Mouse$ErrorButton = 0;
@@ -5940,7 +5942,7 @@ var $mpizenberg$elm_pointer_events$Internal$Decode$clientPos = A3(
 	A2($elm$json$Json$Decode$field, 'clientY', $elm$json$Json$Decode$float));
 var $mpizenberg$elm_pointer_events$Internal$Decode$Keys = F3(
 	function (alt, ctrl, shift) {
-		return {a8: alt, bf: ctrl, bF: shift};
+		return {a9: alt, bg: ctrl, bG: shift};
 	});
 var $elm$json$Json$Decode$map3 = _Json_map3;
 var $mpizenberg$elm_pointer_events$Internal$Decode$keys = A4(
@@ -5975,7 +5977,6 @@ var $mpizenberg$elm_pointer_events$Internal$Decode$screenPos = A3(
 	A2($elm$json$Json$Decode$field, 'screenX', $elm$json$Json$Decode$float),
 	A2($elm$json$Json$Decode$field, 'screenY', $elm$json$Json$Decode$float));
 var $mpizenberg$elm_pointer_events$Html$Events$Extra$Mouse$eventDecoder = A7($elm$json$Json$Decode$map6, $mpizenberg$elm_pointer_events$Html$Events$Extra$Mouse$Event, $mpizenberg$elm_pointer_events$Internal$Decode$keys, $mpizenberg$elm_pointer_events$Html$Events$Extra$Mouse$buttonDecoder, $mpizenberg$elm_pointer_events$Internal$Decode$clientPos, $mpizenberg$elm_pointer_events$Internal$Decode$offsetPos, $mpizenberg$elm_pointer_events$Internal$Decode$pagePos, $mpizenberg$elm_pointer_events$Internal$Decode$screenPos);
-var $elm$json$Json$Decode$string = _Json_decodeString;
 var $mpizenberg$elm_pointer_events$Html$Events$Extra$Pointer$MouseType = 0;
 var $mpizenberg$elm_pointer_events$Html$Events$Extra$Pointer$PenType = 2;
 var $mpizenberg$elm_pointer_events$Html$Events$Extra$Pointer$TouchType = 1;
@@ -6032,96 +6033,98 @@ var $elm$svg$Svg$Attributes$viewBox = _VirtualDom_attribute('viewBox');
 var $elm$svg$Svg$Attributes$width = _VirtualDom_attribute('width');
 var $elm$svg$Svg$Attributes$x = _VirtualDom_attribute('x');
 var $elm$svg$Svg$Attributes$y = _VirtualDom_attribute('y');
-var $author$project$Main$progress = function (model) {
-	var width = 600;
-	var duration = function () {
-		var _v0 = model.t;
-		if (((_v0.$ === 2) && (!_v0.a.a.$)) && (!_v0.a.b.$)) {
-			var _v1 = _v0.a;
-			var s = _v1.a.a;
-			var t = _v1.b.a;
-			return (((($elm$core$Basics$round(
-				$ianmackenzie$elm_units$Duration$inMilliseconds(
-					A2($ianmackenzie$elm_units$Duration$from, s, t))) / 1000) | 0) * width) / 60) | 0;
-		} else {
-			return 0;
-		}
-	}();
-	var color = (_Utils_cmp(duration, ((30 * width) / 60) | 0) > 0) ? 'green' : 'red';
-	return A2(
-		$elm$svg$Svg$svg,
-		_List_fromArray(
-			[
-				$elm$svg$Svg$Attributes$width('400'),
-				$elm$svg$Svg$Attributes$height('32'),
-				$elm$svg$Svg$Attributes$viewBox('0 0 600 32')
-			]),
-		_List_fromArray(
-			[
-				A2(
-				$elm$svg$Svg$rect,
-				_List_fromArray(
-					[
-						$elm$svg$Svg$Attributes$x('0'),
-						$elm$svg$Svg$Attributes$y('0'),
-						$elm$svg$Svg$Attributes$width(
-						$elm$core$String$fromInt(((width / 2) | 0) + 16)),
-						$elm$svg$Svg$Attributes$height('32'),
-						$elm$svg$Svg$Attributes$rx('16'),
-						$elm$svg$Svg$Attributes$ry('16'),
-						$elm$svg$Svg$Attributes$fill('red'),
-						$elm$svg$Svg$Attributes$fillOpacity('20%')
-					]),
-				_List_Nil),
-				A2(
-				$elm$svg$Svg$rect,
-				_List_fromArray(
-					[
-						$elm$svg$Svg$Attributes$x(
-						$elm$core$String$fromInt((width / 2) | 0)),
-						$elm$svg$Svg$Attributes$y('0'),
-						$elm$svg$Svg$Attributes$width(
-						$elm$core$String$fromInt(((width / 2) | 0) - 16)),
-						$elm$svg$Svg$Attributes$height('32'),
-						$elm$svg$Svg$Attributes$rx('16'),
-						$elm$svg$Svg$Attributes$ry('16'),
-						$elm$svg$Svg$Attributes$fill('green'),
-						$elm$svg$Svg$Attributes$fillOpacity('20%')
-					]),
-				_List_Nil),
-				A2(
-				$elm$svg$Svg$text_,
-				_List_fromArray(
-					[
-						$elm$svg$Svg$Attributes$textAnchor('middle'),
-						$elm$svg$Svg$Attributes$x('50%'),
-						$elm$svg$Svg$Attributes$y('65%')
-					]),
-				_List_fromArray(
-					[
-						$elm$svg$Svg$text('Recovering time')
-					])),
-				A2(
-				$elm$svg$Svg$rect,
-				_List_fromArray(
-					[
-						$elm$svg$Svg$Attributes$x('0'),
-						$elm$svg$Svg$Attributes$y('0'),
-						$elm$svg$Svg$Attributes$width(
-						$elm$core$String$fromInt(duration)),
-						$elm$svg$Svg$Attributes$height('32'),
-						$elm$svg$Svg$Attributes$rx('16'),
-						$elm$svg$Svg$Attributes$ry('16'),
-						$elm$svg$Svg$Attributes$fill(color),
-						$elm$svg$Svg$Attributes$fillOpacity('50%')
-					]),
-				_List_Nil)
-			]));
-};
+var $author$project$Main$progress = F2(
+	function (model, lang) {
+		var width = 600;
+		var recoveringText = (lang === 'fr') ? 'Temps de récupération' : 'Recovering time';
+		var duration = function () {
+			var _v0 = model.q;
+			if (((_v0.$ === 2) && (!_v0.a.a.$)) && (!_v0.a.b.$)) {
+				var _v1 = _v0.a;
+				var s = _v1.a.a;
+				var t = _v1.b.a;
+				return (((($elm$core$Basics$round(
+					$ianmackenzie$elm_units$Duration$inMilliseconds(
+						A2($ianmackenzie$elm_units$Duration$from, s, t))) / 1000) | 0) * width) / 60) | 0;
+			} else {
+				return 0;
+			}
+		}();
+		var color = (_Utils_cmp(duration, ((30 * width) / 60) | 0) > 0) ? 'green' : 'red';
+		return A2(
+			$elm$svg$Svg$svg,
+			_List_fromArray(
+				[
+					$elm$svg$Svg$Attributes$width('400'),
+					$elm$svg$Svg$Attributes$height('32'),
+					$elm$svg$Svg$Attributes$viewBox('0 0 600 32')
+				]),
+			_List_fromArray(
+				[
+					A2(
+					$elm$svg$Svg$rect,
+					_List_fromArray(
+						[
+							$elm$svg$Svg$Attributes$x('0'),
+							$elm$svg$Svg$Attributes$y('0'),
+							$elm$svg$Svg$Attributes$width(
+							$elm$core$String$fromInt(((width / 2) | 0) + 16)),
+							$elm$svg$Svg$Attributes$height('32'),
+							$elm$svg$Svg$Attributes$rx('16'),
+							$elm$svg$Svg$Attributes$ry('16'),
+							$elm$svg$Svg$Attributes$fill('red'),
+							$elm$svg$Svg$Attributes$fillOpacity('20%')
+						]),
+					_List_Nil),
+					A2(
+					$elm$svg$Svg$rect,
+					_List_fromArray(
+						[
+							$elm$svg$Svg$Attributes$x(
+							$elm$core$String$fromInt((width / 2) | 0)),
+							$elm$svg$Svg$Attributes$y('0'),
+							$elm$svg$Svg$Attributes$width(
+							$elm$core$String$fromInt(((width / 2) | 0) - 16)),
+							$elm$svg$Svg$Attributes$height('32'),
+							$elm$svg$Svg$Attributes$rx('16'),
+							$elm$svg$Svg$Attributes$ry('16'),
+							$elm$svg$Svg$Attributes$fill('green'),
+							$elm$svg$Svg$Attributes$fillOpacity('20%')
+						]),
+					_List_Nil),
+					A2(
+					$elm$svg$Svg$text_,
+					_List_fromArray(
+						[
+							$elm$svg$Svg$Attributes$textAnchor('middle'),
+							$elm$svg$Svg$Attributes$x('50%'),
+							$elm$svg$Svg$Attributes$y('65%')
+						]),
+					_List_fromArray(
+						[
+							$elm$svg$Svg$text(recoveringText)
+						])),
+					A2(
+					$elm$svg$Svg$rect,
+					_List_fromArray(
+						[
+							$elm$svg$Svg$Attributes$x('0'),
+							$elm$svg$Svg$Attributes$y('0'),
+							$elm$svg$Svg$Attributes$width(
+							$elm$core$String$fromInt(duration)),
+							$elm$svg$Svg$Attributes$height('32'),
+							$elm$svg$Svg$Attributes$rx('16'),
+							$elm$svg$Svg$Attributes$ry('16'),
+							$elm$svg$Svg$Attributes$fill(color),
+							$elm$svg$Svg$Attributes$fillOpacity('50%')
+						]),
+					_List_Nil)
+				]));
+	});
 var $elm$html$Html$text = $elm$virtual_dom$VirtualDom$text;
-var $author$project$Main$view = function (model) {
+var $author$project$Main$view_en = function (model) {
 	var _v0 = function () {
-		var _v1 = model.t;
+		var _v1 = model.q;
 		switch (_v1.$) {
 			case 0:
 				return _Utils_Tuple3('active', 'inactive', 'inactive');
@@ -6160,7 +6163,7 @@ var $author$project$Main$view = function (model) {
 							]),
 						_List_fromArray(
 							[
-								$elm$html$Html$text('Breathe slowly and lightly through the nose.')
+								$elm$html$Html$text('Breathe slowly and lightly through the nose')
 							])),
 						A2(
 						$elm$html$Html$li,
@@ -6170,7 +6173,7 @@ var $author$project$Main$view = function (model) {
 							]),
 						_List_fromArray(
 							[
-								$elm$html$Html$text('Breathe in.')
+								$elm$html$Html$text('Breathe in')
 							])),
 						A2(
 						$elm$html$Html$li,
@@ -6180,7 +6183,7 @@ var $author$project$Main$view = function (model) {
 							]),
 						_List_fromArray(
 							[
-								$elm$html$Html$text(' Breathe out then hold your breath and press and hold the button.')
+								$elm$html$Html$text(' Breathe out then hold your breath and press and hold the button')
 							])),
 						A2(
 						$elm$html$Html$li,
@@ -6190,7 +6193,7 @@ var $author$project$Main$view = function (model) {
 							]),
 						_List_fromArray(
 							[
-								$elm$html$Html$text('Nod or sway the head lot of times.')
+								$elm$html$Html$text('Nod or sway the head lot of times')
 							])),
 						A2(
 						$elm$html$Html$li,
@@ -6210,7 +6213,7 @@ var $author$project$Main$view = function (model) {
 							]),
 						_List_fromArray(
 							[
-								$elm$html$Html$text('Take 30s-1m to recover by breathing slowly and lightly through your nose.')
+								$elm$html$Html$text('Take 30s-1m to recover by breathing slowly and lightly through your nose')
 							]))
 					])),
 				$elm$html$Html$text('Repeat the exercise 6 times.'),
@@ -6233,13 +6236,140 @@ var $author$project$Main$view = function (model) {
 						$elm$html$Html$text('Press and hold')
 					])),
 				A2($elm$html$Html$br, _List_Nil, _List_Nil),
-				$author$project$Main$progress(model),
+				A2($author$project$Main$progress, model, 'en'),
 				A2($elm$html$Html$br, _List_Nil, _List_Nil),
 				$elm$html$Html$text(
-				'Number of repetitions done : ' + ($elm$core$String$fromInt(model.an) + '/6'))
+				'Number of repetitions done : ' + ($elm$core$String$fromInt(model.Y) + '/ 6'))
 			]));
 };
+var $author$project$Main$view_fr = function (model) {
+	var _v0 = function () {
+		var _v1 = model.q;
+		switch (_v1.$) {
+			case 0:
+				return _Utils_Tuple3('active', 'inactive', 'inactive');
+			case 1:
+				return _Utils_Tuple3('inactive', 'active', 'inactive');
+			default:
+				return _Utils_Tuple3('inactive', 'inactive', 'active');
+		}
+	}();
+	var first = _v0.a;
+	var second = _v0.b;
+	var third = _v0.c;
+	return A2(
+		$elm$html$Html$div,
+		_List_Nil,
+		_List_fromArray(
+			[
+				$elm$html$Html$text('Instructions'),
+				A2(
+				$elm$html$Html$ol,
+				_List_Nil,
+				_List_fromArray(
+					[
+						A2(
+						$elm$html$Html$li,
+						_List_Nil,
+						_List_fromArray(
+							[
+								$elm$html$Html$text('Fermez la bouche')
+							])),
+						A2(
+						$elm$html$Html$li,
+						_List_fromArray(
+							[
+								$elm$html$Html$Attributes$class(first)
+							]),
+						_List_fromArray(
+							[
+								$elm$html$Html$text('Respirez lentement, légèrement et profondément par le nez')
+							])),
+						A2(
+						$elm$html$Html$li,
+						_List_fromArray(
+							[
+								$elm$html$Html$Attributes$class(first)
+							]),
+						_List_fromArray(
+							[
+								$elm$html$Html$text('Inspirez')
+							])),
+						A2(
+						$elm$html$Html$li,
+						_List_fromArray(
+							[
+								$elm$html$Html$Attributes$class(first)
+							]),
+						_List_fromArray(
+							[
+								$elm$html$Html$text(' Expirez puis retenez votre souffle, enfoncer et maintenez le bouton')
+							])),
+						A2(
+						$elm$html$Html$li,
+						_List_fromArray(
+							[
+								$elm$html$Html$Attributes$class(second)
+							]),
+						_List_fromArray(
+							[
+								$elm$html$Html$text('Incliner lentement la tête de haut en bas, de droite à gauche le plus de fois possible')
+							])),
+						A2(
+						$elm$html$Html$li,
+						_List_fromArray(
+							[
+								$elm$html$Html$Attributes$class(second)
+							]),
+						_List_fromArray(
+							[
+								$elm$html$Html$text('Lorsque vous n\'en pouvez plus, relâchez le bouton et respirez par le nez')
+							])),
+						A2(
+						$elm$html$Html$li,
+						_List_fromArray(
+							[
+								$elm$html$Html$Attributes$class(third)
+							]),
+						_List_fromArray(
+							[
+								$elm$html$Html$text('Continuez à respirer lentement par le nez, et prenez de 30 secondes à 1 minute pour récupérer.')
+							]))
+					])),
+				$elm$html$Html$text('Répétez l\'exercice 6 fois.'),
+				A2($elm$html$Html$br, _List_Nil, _List_Nil),
+				A2(
+				$elm$html$Html$button,
+				_List_fromArray(
+					[
+						$mpizenberg$elm_pointer_events$Html$Events$Extra$Pointer$onDown(
+						function (event) {
+							return $author$project$Main$Press;
+						}),
+						$mpizenberg$elm_pointer_events$Html$Events$Extra$Pointer$onUp(
+						function (event) {
+							return $author$project$Main$Release;
+						})
+					]),
+				_List_fromArray(
+					[
+						$elm$html$Html$text('Appuyez et maintenez')
+					])),
+				A2($elm$html$Html$br, _List_Nil, _List_Nil),
+				A2($author$project$Main$progress, model, 'fr'),
+				A2($elm$html$Html$br, _List_Nil, _List_Nil),
+				$elm$html$Html$text(
+				'Nombre de répétitions : ' + ($elm$core$String$fromInt(model.Y) + '/ 6'))
+			]));
+};
+var $author$project$Main$view = function (model) {
+	var _v0 = model.aG;
+	if (_v0 === 'fr') {
+		return $author$project$Main$view_fr(model);
+	} else {
+		return $author$project$Main$view_en(model);
+	}
+};
 var $author$project$Main$main = $elm$browser$Browser$element(
-	{br: $author$project$Main$init, bH: $author$project$Main$subscriptions, bM: $author$project$Main$update, bN: $author$project$Main$view});
-_Platform_export({'Main':{'init':$author$project$Main$main(
-	$elm$json$Json$Decode$succeed(0))(0)}});}(this));
+	{bs: $author$project$Main$init, bI: $author$project$Main$subscriptions, bN: $author$project$Main$update, bO: $author$project$Main$view});
+_Platform_export({'Main':{'init':$author$project$Main$main($elm$json$Json$Decode$string)(0)}});}(this));

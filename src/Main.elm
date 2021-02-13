@@ -21,6 +21,7 @@ type alias Model =
     { round : Int
     , scene : ( Int, Int )
     , exercise : ExerciseState
+    , lang : String
     }
 
 
@@ -38,9 +39,9 @@ type Msg
     | Release
 
 
-init : flags -> ( Model, Cmd Msg )
-init _ =
-    ( Model 0 ( 320, 240 ) Preparation
+init : String -> ( Model, Cmd Msg )
+init lang =
+    ( Model 0 ( 320, 240 ) Preparation lang
     , Cmd.none
     )
 
@@ -87,8 +88,54 @@ update msg model =
             ( model, Cmd.none )
 
 
-view : Model -> Html Msg
+view_fr : Model -> Html Msg
+view_fr model =
+    let
+        ( first, second, third ) =
+            case model.exercise of
+                Preparation ->
+                    ( "active", "inactive", "inactive" )
+
+                BreathHolding ->
+                    ( "inactive", "active", "inactive" )
+
+                Recovery _ ->
+                    ( "inactive", "inactive", "active" )
+    in
+        Html.div []
+            [ Html.text "Instructions"
+            , Html.ol []
+                [ Html.li [] [ Html.text "Fermez la bouche" ]
+                , Html.li [ Html.Attributes.class first ] [ Html.text "Respirez lentement, légèrement et profondément par le nez" ]
+                , Html.li [ Html.Attributes.class first ] [ Html.text "Inspirez" ]
+                , Html.li [ Html.Attributes.class first ] [ Html.text " Expirez puis retenez votre souffle, enfoncer et maintenez le bouton" ]
+                , Html.li [ Html.Attributes.class second ] [ Html.text "Incliner lentement la tête de haut en bas, de droite à gauche le plus de fois possible" ]
+                , Html.li [ Html.Attributes.class second ] [ Html.text "Lorsque vous n'en pouvez plus, relâchez le bouton et respirez par le nez" ]
+                , Html.li [ Html.Attributes.class third ] [ Html.text "Continuez à respirer lentement par le nez, et prenez de 30 secondes à 1 minute pour récupérer." ]
+                ]
+            , Html.text "Répétez l'exercice 6 fois."
+            , Html.br [] []
+            , Html.button
+                [ Pointer.onDown (\event -> Press), Pointer.onUp (\event -> Release) ]
+                [ Html.text "Appuyez et maintenez" ]
+            , Html.br [] []
+            , progress model "fr"
+            , Html.br [] []
+            , Html.text ("Nombre de répétitions : " ++ (String.fromInt model.round) ++ "/ 6")
+            ]
+
+
 view model =
+    case model.lang of
+        "fr" ->
+            view_fr model
+
+        _ ->
+            view_en model
+
+
+view_en : Model -> Html Msg
+view_en model =
     let
         ( first, second, third ) =
             case model.exercise of
@@ -105,12 +152,12 @@ view model =
             [ Html.text "Instructions"
             , Html.ol []
                 [ Html.li [] [ Html.text "Close your mouth" ]
-                , Html.li [ Html.Attributes.class first ] [ Html.text "Breathe slowly and lightly through the nose." ]
-                , Html.li [ Html.Attributes.class first ] [ Html.text "Breathe in." ]
-                , Html.li [ Html.Attributes.class first ] [ Html.text " Breathe out then hold your breath and press and hold the button." ]
-                , Html.li [ Html.Attributes.class second ] [ Html.text "Nod or sway the head lot of times." ]
+                , Html.li [ Html.Attributes.class first ] [ Html.text "Breathe slowly and lightly through the nose" ]
+                , Html.li [ Html.Attributes.class first ] [ Html.text "Breathe in" ]
+                , Html.li [ Html.Attributes.class first ] [ Html.text " Breathe out then hold your breath and press and hold the button" ]
+                , Html.li [ Html.Attributes.class second ] [ Html.text "Nod or sway the head lot of times" ]
                 , Html.li [ Html.Attributes.class second ] [ Html.text "When you are out of breath, release the button" ]
-                , Html.li [ Html.Attributes.class third ] [ Html.text "Take 30s-1m to recover by breathing slowly and lightly through your nose." ]
+                , Html.li [ Html.Attributes.class third ] [ Html.text "Take 30s-1m to recover by breathing slowly and lightly through your nose" ]
                 ]
             , Html.text "Repeat the exercise 6 times."
             , Html.br [] []
@@ -118,13 +165,13 @@ view model =
                 [ Pointer.onDown (\event -> Press), Pointer.onUp (\event -> Release) ]
                 [ Html.text "Press and hold" ]
             , Html.br [] []
-            , progress model
+            , progress model "en"
             , Html.br [] []
-            , Html.text ("Number of repetitions done : " ++ (String.fromInt model.round) ++ "/6")
+            , Html.text ("Number of repetitions done : " ++ (String.fromInt model.round) ++ "/ 6")
             ]
 
 
-progress model =
+progress model lang =
     let
         width =
             600
@@ -142,6 +189,12 @@ progress model =
                 "green"
             else
                 "red"
+
+        recoveringText =
+            if lang == "fr" then
+                "Temps de récupération"
+            else
+                "Recovering time"
     in
         Svg.svg
             [ Svg.Attributes.width "400"
@@ -153,7 +206,7 @@ progress model =
             , Svg.rect
                 [ Svg.Attributes.x (String.fromInt (width // 2)), Svg.Attributes.y "0", Svg.Attributes.width (String.fromInt (width // 2 - 16)), Svg.Attributes.height "32", Svg.Attributes.rx "16", Svg.Attributes.ry "16", Svg.Attributes.fill "green", Svg.Attributes.fillOpacity "20%" ]
                 []
-            , Svg.text_ [ Svg.Attributes.textAnchor "middle", Svg.Attributes.x "50%", Svg.Attributes.y "65%" ] [ Svg.text "Recovering time" ]
+            , Svg.text_ [ Svg.Attributes.textAnchor "middle", Svg.Attributes.x "50%", Svg.Attributes.y "65%" ] [ Svg.text recoveringText ]
             , Svg.rect [ Svg.Attributes.x "0", Svg.Attributes.y "0", Svg.Attributes.width (String.fromInt duration), Svg.Attributes.height "32", Svg.Attributes.rx "16", Svg.Attributes.ry "16", Svg.Attributes.fill color, Svg.Attributes.fillOpacity "50%" ] []
             ]
 
@@ -165,7 +218,7 @@ subscriptions _ =
         ]
 
 
-main : Platform.Program () Model Msg
+main : Platform.Program String Model Msg
 main =
     Browser.element
         { init = init
