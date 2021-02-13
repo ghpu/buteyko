@@ -14,5 +14,7 @@ Exercice :
 
 Repeat 6 times.
 
+English version in index.html
+French version in index_fr.html
 
 The code is generated with ELM 0.19.1 (https://elm-lang.org) .
