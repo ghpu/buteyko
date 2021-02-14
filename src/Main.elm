@@ -29,6 +29,7 @@ type ExerciseState
     = Preparation
     | BreathHolding
     | Recovery ( Maybe Time.Posix, Maybe Time.Posix )
+    | LongRecovery ( Maybe Time.Posix, Maybe Time.Posix )
 
 
 type Msg
@@ -74,11 +75,24 @@ update msg model =
                             0
             in
                 if duration > 30000 then
-                    ( { model | exercise = Preparation, round = model.round + 1 }, Cmd.none )
+                    ( { model | exercise = LongRecovery ( s, t ), round = model.round + 1 }, Cmd.none )
                 else
-                    ( { model | exercise = (Recovery ( s, t )) }, Cmd.none )
+                    ( { model | exercise = Recovery ( s, t ) }, Cmd.none )
+
+        ( Frame time, LongRecovery ( Just s, Just t ) ) ->
+            let
+                duration =
+                    round (Duration.inMilliseconds (Duration.from s time))
+            in
+                if duration > 60000 then
+                    ( { model | exercise = Preparation }, Cmd.none )
+                else
+                    ( { model | exercise = LongRecovery ( Just s, Just time ) }, Cmd.none )
 
         ( Press, Preparation ) ->
+            ( { model | exercise = BreathHolding }, Cmd.none )
+
+        ( Press, LongRecovery _ ) ->
             ( { model | exercise = BreathHolding }, Cmd.none )
 
         ( Release, BreathHolding ) ->
@@ -101,6 +115,9 @@ view_fr model =
 
                 Recovery _ ->
                     ( "inactive", "inactive", "active" )
+
+                LongRecovery _ ->
+                    ( "active", "inactive", "inactive" )
     in
         Html.div []
             [ Html.text "Instructions"
@@ -147,6 +164,9 @@ view_en model =
 
                 Recovery _ ->
                     ( "inactive", "inactive", "active" )
+
+                LongRecovery _ ->
+                    ( "active", "inactive", "active" )
     in
         Html.div []
             [ Html.text "Instructions"
@@ -179,6 +199,9 @@ progress model lang =
         duration =
             case model.exercise of
                 Recovery ( Just s, Just t ) ->
+                    round (Duration.inMilliseconds (Duration.from s t)) // 1000 * width // 60
+
+                LongRecovery ( Just s, Just t ) ->
                     round (Duration.inMilliseconds (Duration.from s t)) // 1000 * width // 60
 
                 _ ->

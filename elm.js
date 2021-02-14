@@ -5140,7 +5140,7 @@ var $elm$core$Task$perform = F2(
 var $elm$browser$Browser$element = _Browser_element;
 var $author$project$Main$Model = F4(
 	function (round, scene, exercise, lang) {
-		return {q: exercise, aG: lang, Y: round, Z: scene};
+		return {i: exercise, aG: lang, Y: round, Z: scene};
 	});
 var $author$project$Main$Preparation = {$: 0};
 var $elm$core$Platform$Cmd$batch = _Platform_batch;
@@ -5719,6 +5719,9 @@ var $author$project$Main$subscriptions = function (_v0) {
 			]));
 };
 var $author$project$Main$BreathHolding = {$: 1};
+var $author$project$Main$LongRecovery = function (a) {
+	return {$: 3, a: a};
+};
 var $author$project$Main$Recovery = function (a) {
 	return {$: 2, a: a};
 };
@@ -5748,8 +5751,8 @@ var $ianmackenzie$elm_units$Duration$inMilliseconds = function (duration) {
 var $elm$core$Basics$round = _Basics_round;
 var $author$project$Main$update = F2(
 	function (msg, model) {
-		var _v0 = _Utils_Tuple2(msg, model.q);
-		_v0$5:
+		var _v0 = _Utils_Tuple2(msg, model.i);
+		_v0$7:
 		while (true) {
 			switch (_v0.a.$) {
 				case 1:
@@ -5775,81 +5778,120 @@ var $author$project$Main$update = F2(
 							}),
 						$elm$core$Platform$Cmd$none);
 				case 0:
-					if (_v0.b.$ === 2) {
-						var time = _v0.a.a;
-						var _v2 = _v0.b.a;
-						var os = _v2.a;
-						var ot = _v2.b;
-						var _v3 = function () {
-							var _v4 = _Utils_Tuple2(os, ot);
-							if ((_v4.a.$ === 1) && (_v4.b.$ === 1)) {
-								var _v5 = _v4.a;
-								var _v6 = _v4.b;
-								return _Utils_Tuple2(
-									$elm$core$Maybe$Just(time),
-									$elm$core$Maybe$Nothing);
-							} else {
-								var start = _v4.a;
-								return _Utils_Tuple2(
-									start,
-									$elm$core$Maybe$Just(time));
-							}
-						}();
-						var s = _v3.a;
-						var t = _v3.b;
-						var duration = function () {
-							var _v7 = _Utils_Tuple2(s, t);
-							if ((!_v7.a.$) && (!_v7.b.$)) {
-								var ss = _v7.a.a;
-								var tt = _v7.b.a;
-								return $elm$core$Basics$round(
+					switch (_v0.b.$) {
+						case 2:
+							var time = _v0.a.a;
+							var _v2 = _v0.b.a;
+							var os = _v2.a;
+							var ot = _v2.b;
+							var _v3 = function () {
+								var _v4 = _Utils_Tuple2(os, ot);
+								if ((_v4.a.$ === 1) && (_v4.b.$ === 1)) {
+									var _v5 = _v4.a;
+									var _v6 = _v4.b;
+									return _Utils_Tuple2(
+										$elm$core$Maybe$Just(time),
+										$elm$core$Maybe$Nothing);
+								} else {
+									var start = _v4.a;
+									return _Utils_Tuple2(
+										start,
+										$elm$core$Maybe$Just(time));
+								}
+							}();
+							var s = _v3.a;
+							var t = _v3.b;
+							var duration = function () {
+								var _v7 = _Utils_Tuple2(s, t);
+								if ((!_v7.a.$) && (!_v7.b.$)) {
+									var ss = _v7.a.a;
+									var tt = _v7.b.a;
+									return $elm$core$Basics$round(
+										$ianmackenzie$elm_units$Duration$inMilliseconds(
+											A2($ianmackenzie$elm_units$Duration$from, ss, tt)));
+								} else {
+									return 0;
+								}
+							}();
+							return (duration > 30000) ? _Utils_Tuple2(
+								_Utils_update(
+									model,
+									{
+										i: $author$project$Main$LongRecovery(
+											_Utils_Tuple2(s, t)),
+										Y: model.Y + 1
+									}),
+								$elm$core$Platform$Cmd$none) : _Utils_Tuple2(
+								_Utils_update(
+									model,
+									{
+										i: $author$project$Main$Recovery(
+											_Utils_Tuple2(s, t))
+									}),
+								$elm$core$Platform$Cmd$none);
+						case 3:
+							if ((!_v0.b.a.a.$) && (!_v0.b.a.b.$)) {
+								var time = _v0.a.a;
+								var _v8 = _v0.b.a;
+								var s = _v8.a.a;
+								var t = _v8.b.a;
+								var duration = $elm$core$Basics$round(
 									$ianmackenzie$elm_units$Duration$inMilliseconds(
-										A2($ianmackenzie$elm_units$Duration$from, ss, tt)));
+										A2($ianmackenzie$elm_units$Duration$from, s, time)));
+								return (duration > 60000) ? _Utils_Tuple2(
+									_Utils_update(
+										model,
+										{i: $author$project$Main$Preparation}),
+									$elm$core$Platform$Cmd$none) : _Utils_Tuple2(
+									_Utils_update(
+										model,
+										{
+											i: $author$project$Main$LongRecovery(
+												_Utils_Tuple2(
+													$elm$core$Maybe$Just(s),
+													$elm$core$Maybe$Just(time)))
+										}),
+									$elm$core$Platform$Cmd$none);
 							} else {
-								return 0;
+								break _v0$7;
 							}
-						}();
-						return (duration > 30000) ? _Utils_Tuple2(
-							_Utils_update(
-								model,
-								{q: $author$project$Main$Preparation, Y: model.Y + 1}),
-							$elm$core$Platform$Cmd$none) : _Utils_Tuple2(
-							_Utils_update(
-								model,
-								{
-									q: $author$project$Main$Recovery(
-										_Utils_Tuple2(s, t))
-								}),
-							$elm$core$Platform$Cmd$none);
-					} else {
-						break _v0$5;
+						default:
+							break _v0$7;
 					}
 				case 3:
-					if (!_v0.b.$) {
-						var _v8 = _v0.a;
-						var _v9 = _v0.b;
-						return _Utils_Tuple2(
-							_Utils_update(
-								model,
-								{q: $author$project$Main$BreathHolding}),
-							$elm$core$Platform$Cmd$none);
-					} else {
-						break _v0$5;
+					switch (_v0.b.$) {
+						case 0:
+							var _v9 = _v0.a;
+							var _v10 = _v0.b;
+							return _Utils_Tuple2(
+								_Utils_update(
+									model,
+									{i: $author$project$Main$BreathHolding}),
+								$elm$core$Platform$Cmd$none);
+						case 3:
+							var _v11 = _v0.a;
+							return _Utils_Tuple2(
+								_Utils_update(
+									model,
+									{i: $author$project$Main$BreathHolding}),
+								$elm$core$Platform$Cmd$none);
+						default:
+							break _v0$7;
 					}
 				default:
 					if (_v0.b.$ === 1) {
-						var _v10 = _v0.a;
-						var _v11 = _v0.b;
+						var _v12 = _v0.a;
+						var _v13 = _v0.b;
 						return _Utils_Tuple2(
 							_Utils_update(
 								model,
 								{
-									q: $author$project$Main$Recovery(
+									i: $author$project$Main$Recovery(
 										_Utils_Tuple2($elm$core$Maybe$Nothing, $elm$core$Maybe$Nothing))
 								}),
 							$elm$core$Platform$Cmd$none);
 					} else {
-						break _v0$5;
+						break _v0$7;
 					}
 			}
 		}
@@ -6038,17 +6080,37 @@ var $author$project$Main$progress = F2(
 		var width = 600;
 		var recoveringText = (lang === 'fr') ? 'Temps de récupération' : 'Recovering time';
 		var duration = function () {
-			var _v0 = model.q;
-			if (((_v0.$ === 2) && (!_v0.a.a.$)) && (!_v0.a.b.$)) {
-				var _v1 = _v0.a;
-				var s = _v1.a.a;
-				var t = _v1.b.a;
-				return (((($elm$core$Basics$round(
-					$ianmackenzie$elm_units$Duration$inMilliseconds(
-						A2($ianmackenzie$elm_units$Duration$from, s, t))) / 1000) | 0) * width) / 60) | 0;
-			} else {
-				return 0;
+			var _v0 = model.i;
+			_v0$2:
+			while (true) {
+				switch (_v0.$) {
+					case 2:
+						if ((!_v0.a.a.$) && (!_v0.a.b.$)) {
+							var _v1 = _v0.a;
+							var s = _v1.a.a;
+							var t = _v1.b.a;
+							return (((($elm$core$Basics$round(
+								$ianmackenzie$elm_units$Duration$inMilliseconds(
+									A2($ianmackenzie$elm_units$Duration$from, s, t))) / 1000) | 0) * width) / 60) | 0;
+						} else {
+							break _v0$2;
+						}
+					case 3:
+						if ((!_v0.a.a.$) && (!_v0.a.b.$)) {
+							var _v2 = _v0.a;
+							var s = _v2.a.a;
+							var t = _v2.b.a;
+							return (((($elm$core$Basics$round(
+								$ianmackenzie$elm_units$Duration$inMilliseconds(
+									A2($ianmackenzie$elm_units$Duration$from, s, t))) / 1000) | 0) * width) / 60) | 0;
+						} else {
+							break _v0$2;
+						}
+					default:
+						break _v0$2;
+				}
 			}
+			return 0;
 		}();
 		var color = (_Utils_cmp(duration, ((30 * width) / 60) | 0) > 0) ? 'green' : 'red';
 		return A2(
@@ -6124,14 +6186,16 @@ var $author$project$Main$progress = F2(
 var $elm$html$Html$text = $elm$virtual_dom$VirtualDom$text;
 var $author$project$Main$view_en = function (model) {
 	var _v0 = function () {
-		var _v1 = model.q;
+		var _v1 = model.i;
 		switch (_v1.$) {
 			case 0:
 				return _Utils_Tuple3('active', 'inactive', 'inactive');
 			case 1:
 				return _Utils_Tuple3('inactive', 'active', 'inactive');
-			default:
+			case 2:
 				return _Utils_Tuple3('inactive', 'inactive', 'active');
+			default:
+				return _Utils_Tuple3('active', 'inactive', 'active');
 		}
 	}();
 	var first = _v0.a;
@@ -6244,14 +6308,16 @@ var $author$project$Main$view_en = function (model) {
 };
 var $author$project$Main$view_fr = function (model) {
 	var _v0 = function () {
-		var _v1 = model.q;
+		var _v1 = model.i;
 		switch (_v1.$) {
 			case 0:
 				return _Utils_Tuple3('active', 'inactive', 'inactive');
 			case 1:
 				return _Utils_Tuple3('inactive', 'active', 'inactive');
-			default:
+			case 2:
 				return _Utils_Tuple3('inactive', 'inactive', 'active');
+			default:
+				return _Utils_Tuple3('active', 'inactive', 'inactive');
 		}
 	}();
 	var first = _v0.a;
