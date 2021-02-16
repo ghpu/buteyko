@@ -6419,7 +6419,8 @@ var $author$project$Main$view_fr = function (model) {
 						$mpizenberg$elm_pointer_events$Html$Events$Extra$Pointer$onDown(
 						function (event) {
 							return $author$project$Main$Press;
-						})
+						}),
+						$elm$svg$Svg$Attributes$pointerEvents('none')
 					]),
 				_List_fromArray(
 					[

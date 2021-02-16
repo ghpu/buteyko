@@ -133,7 +133,7 @@ view_fr model =
             , Html.text "Répétez l'exercice 6 fois."
             , Html.br [] []
             , Html.button
-                [ Pointer.onDown (\event -> Press) ]
+                [ Pointer.onDown (\event -> Press), Svg.Attributes.pointerEvents "none" ]
                 [ Html.text "Appuyez et maintenez" ]
             , Html.br [] []
             , progress model "fr"
