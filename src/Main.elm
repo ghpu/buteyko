@@ -223,6 +223,7 @@ progress model lang =
             [ Svg.Attributes.width "400"
             , Svg.Attributes.height "32"
             , Svg.Attributes.viewBox "0 0 600 32"
+            , Svg.Attributes.pointerEvents "none"
             ]
             [ Svg.rect [ Svg.Attributes.x "0", Svg.Attributes.y "0", Svg.Attributes.width (String.fromInt (width // 2 + 16)), Svg.Attributes.height "32", Svg.Attributes.rx "16", Svg.Attributes.ry "16", Svg.Attributes.fill "red", Svg.Attributes.fillOpacity "20%" ]
                 []

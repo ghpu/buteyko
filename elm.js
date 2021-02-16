@@ -6062,6 +6062,7 @@ var $mpizenberg$elm_pointer_events$Html$Events$Extra$Pointer$onUp = A2($mpizenbe
 var $elm$svg$Svg$Attributes$fill = _VirtualDom_attribute('fill');
 var $elm$svg$Svg$Attributes$fillOpacity = _VirtualDom_attribute('fill-opacity');
 var $elm$svg$Svg$Attributes$height = _VirtualDom_attribute('height');
+var $elm$svg$Svg$Attributes$pointerEvents = _VirtualDom_attribute('pointer-events');
 var $elm$svg$Svg$trustedNode = _VirtualDom_nodeNS('http://www.w3.org/2000/svg');
 var $elm$svg$Svg$rect = $elm$svg$Svg$trustedNode('rect');
 var $elm$svg$Svg$Attributes$rx = _VirtualDom_attribute('rx');
@@ -6119,7 +6120,8 @@ var $author$project$Main$progress = F2(
 				[
 					$elm$svg$Svg$Attributes$width('400'),
 					$elm$svg$Svg$Attributes$height('32'),
-					$elm$svg$Svg$Attributes$viewBox('0 0 600 32')
+					$elm$svg$Svg$Attributes$viewBox('0 0 600 32'),
+					$elm$svg$Svg$Attributes$pointerEvents('none')
 				]),
 			_List_fromArray(
 				[
