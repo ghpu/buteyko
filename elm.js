@@ -6327,7 +6327,13 @@ var $author$project$Main$view_fr = function (model) {
 	var third = _v0.c;
 	return A2(
 		$elm$html$Html$div,
-		_List_Nil,
+		_List_fromArray(
+			[
+				$mpizenberg$elm_pointer_events$Html$Events$Extra$Pointer$onUp(
+				function (event) {
+					return $author$project$Main$Release;
+				})
+			]),
 		_List_fromArray(
 			[
 				$elm$html$Html$text('Instructions'),
@@ -6413,10 +6419,6 @@ var $author$project$Main$view_fr = function (model) {
 						$mpizenberg$elm_pointer_events$Html$Events$Extra$Pointer$onDown(
 						function (event) {
 							return $author$project$Main$Press;
-						}),
-						$mpizenberg$elm_pointer_events$Html$Events$Extra$Pointer$onUp(
-						function (event) {
-							return $author$project$Main$Release;
 						})
 					]),
 				_List_fromArray(

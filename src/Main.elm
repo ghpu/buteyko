@@ -119,7 +119,7 @@ view_fr model =
                 LongRecovery _ ->
                     ( "active", "inactive", "inactive" )
     in
-        Html.div []
+        Html.div [ Pointer.onUp (\event -> Release) ]
             [ Html.text "Instructions"
             , Html.ol []
                 [ Html.li [] [ Html.text "Fermez la bouche" ]
@@ -133,7 +133,7 @@ view_fr model =
             , Html.text "Répétez l'exercice 6 fois."
             , Html.br [] []
             , Html.button
-                [ Pointer.onDown (\event -> Press), Pointer.onUp (\event -> Release) ]
+                [ Pointer.onDown (\event -> Press) ]
                 [ Html.text "Appuyez et maintenez" ]
             , Html.br [] []
             , progress model "fr"
